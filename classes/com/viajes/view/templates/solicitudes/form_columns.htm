@@ -1,0 +1,683 @@
+<!-- BEGIN: main -->
+<!-- <script type="text/javascript" src="{WEB_PATH}libs/ckeditor/ckeditor.js"></script>  -->
+<style>
+#formTabs{
+
+}
+#formTabs fieldset {
+    background: none repeat scroll 0 0 #EEEEEE;
+    border-radius: 4px 4px 0 0;
+    box-shadow:none;
+    margin-top: 1em;
+    padding: 1.5em;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+</style>
+<script type="text/javascript">
+
+
+
+$(function() {
+
+	$( "#tabs" ).tabs();
+});
+
+
+
+$(function() {
+
+        $("#{form_id}").submit(function(e) {
+        	
+        	if( $("#{form_id}_input_submit").length > 0){
+        		$submit = $("#{form_id}_input_submit");
+            	$restoreOpacity = $submit.css("opacity");	
+        	}
+        	
+        	
+        	 e.preventDefault();
+        	 
+        	 if( {useAjaxSubmit} ) {
+
+                	submitAjaxForm('{form_id}', '{action}', {onSuccessCallback},{beforeSubmit});
+                	
+                	return false;
+             }else{
+            	 
+            	
+         		$submit.css({"opacity":$restoreOpacity});
+         		$submit.removeAttr( "disabled" );
+             }
+        	 
+        	 
+        	 
+        });
+	
+            								
+});
+
+function uploadAjax(file, action, name){
+	var file = file.files[0];
+	var data = new FormData();
+	var $submit_ajax = $("#{form_id}_input_submit_ajax");
+	var $restoreOpacity = $submit_ajax.css("opacity");
+	data.append(name,file);
+	 $.ajax({
+	            url:action,
+	            type:'POST',
+	            contentType:false,
+	            data:data,
+	            processData:false,  
+	            cache:false,
+	            beforeSend: function(){
+					$submit_ajax.css({opacity:0.5});
+					$submit_ajax.attr("disabled", "disabled");
+					$("#"+name+"_cargado").html("");
+				  },
+				  complete: function(){ 
+				  },
+				  error: function(){ 
+					 	
+					 	$submit_ajax.css({"opacity":$restoreOpacity});
+					 	$submit_ajax.removeAttr( "disabled" )
+					  },
+				  success: function(content){
+				    
+					
+					$submit_ajax.css({"opacity":$restoreOpacity});
+					$submit_ajax.removeAttr( "disabled" );
+					 
+					
+					
+				  }
+					  
+	            
+	 }).done(function(msg){
+		    $("#"+name+"_cargado").append(msg); //Mostrara los archivos cargados en el div con el id "Cargados"
+	  });
+	}
+
+
+function successDefault_{form_id}(data ){
+
+	try {
+		
+		 jsondata = $.parseJSON(data);
+
+		 if( jsondata != null && jsondata["error"]!=null){
+				showMessageError( jsondata["error"], false );
+			}
+
+		 if( jsondata != null && jsondata["info"]!=null){
+				//showMessageInfo( jsondata["info"], false );
+				//$('#{form_id}').reset();
+				{onCancel};
+				
+			}			
+	} catch (e) {
+	   return;
+	}
+	
+	
+}
+
+
+
+</script>
+
+<form <!-- BEGIN: property --> {name}="{value}" <!-- END: property --> >
+<a name="ancla" id="ancla"></a>
+	<!-- BEGIN: fieldset -->
+		<fieldset>
+	    <!-- BEGIN: legend -->
+		<legend>{value}</legend>
+		<!-- END: legend -->
+
+		<table width="100%">
+			<tr>
+				<!-- BEGIN:column -->
+				<td>
+					<!-- BEGIN: ds_investigador -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+					<!-- END: ds_investigador -->
+					<!-- BEGIN: nu_cuil -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+					<!-- END: nu_cuil -->
+					
+				</td>
+				<!-- END:column -->
+			</tr>
+		</table>
+		
+	</fieldset>
+	<!-- END: fieldset -->
+	<!-- BEGIN: field_hidden -->
+	{input_hidden}
+	<!-- END: field_hidden -->
+	<div id="tabs">
+	<ul>
+		
+		<li><a href="#tabs-1">{domicilio_tab}</a></li>
+		<li><a href="#tabs-2">{universidad_tab}</a></li>
+		<li><a href="#tabs-3">{becario_tab}</a></li>
+		<li><a href="#tabs-4">{carrerainv_tab}</a></li>
+		<li><a href="#tabs-5">{proyectos_tab}</a></li>
+		<li><a href="#tabs-6">{descripcion_tab}</a></li>
+		
+	</ul>
+<div id="formTabs">
+<fieldset>	
+	<!-- BEGIN: legend -->
+		<legend>{value}</legend>
+		<!-- END: legend -->
+
+		<table width="100%">
+			<tr>
+				<!-- BEGIN:column -->
+				<td>
+					
+					<!-- BEGIN: ds_investigador -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+					<!-- END: ds_investigador -->
+					<!-- BEGIN: nu_cuil -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+					<!-- END: nu_cuil -->
+					
+				</td>
+				<!-- END:column -->
+			</tr>
+		</table>
+	
+	<div id="tabs-1" style="position:relative;">
+		{titulo_domicilio}
+		<!-- BEGIN: ds_calle -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: ds_calle -->
+		<!-- BEGIN: nu_nro -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: nu_nro -->
+		<!-- BEGIN: nu_piso -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: nu_piso -->
+		<!-- BEGIN: ds_depto -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: ds_depto -->
+		<!-- BEGIN: nu_cp -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: nu_cp -->
+		<!-- BEGIN: ds_mail -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: ds_mail -->
+		<!-- BEGIN: bl_notificacion -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					 <!-- BEGIN: input -->
+					     {value}{input}
+					    <!-- END: input -->
+					    
+					
+					   
+					</div>
+		<!-- END: bl_notificacion -->
+		<!-- BEGIN: nu_telefono -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: nu_telefono -->
+		
+		
+	</div>
+	<div id="tabs-2" style="position:relative;">
+		
+		
+		
+		<!-- BEGIN: cargo_oid -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: cargo_oid -->
+		<!-- BEGIN: deddoc_oid -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: deddoc_oid -->
+		<!-- BEGIN: facultad_oid -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: facultad_oid -->
+		<!-- BEGIN: ds_disciplina -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: ds_disciplina -->
+		
+		
+	</div>
+	
+	<div id="tabs-3" style="position:relative;">
+		
+		<!-- BEGIN: ds_orgbeca -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					<!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					    
+					
+					   
+					</div>
+		<!-- END: ds_orgbeca -->
+		<!-- BEGIN: ds_tipobeca -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					 <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					    
+					
+					   
+					</div>
+		<!-- END: ds_tipobeca -->
+		<!-- BEGIN: dt_becadesde -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					 <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					    
+					
+					   
+					</div>
+		<!-- END: dt_becadesde -->
+		<!-- BEGIN: dt_becahasta -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					 <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					    
+					
+					   
+					</div>
+		<!-- END: dt_becahasta -->
+		<!-- BEGIN: solicitud_filter_lugarTrabajoBeca_oid -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					<!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					    
+					
+					   
+					</div>
+		<!-- END: solicitud_filter_lugarTrabajoBeca_oid -->
+		
+	</div>
+	<div id="tabs-4" style="position:relative;">
+		<!-- BEGIN: organismo_oid -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					<!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					    
+					
+					   
+					</div>
+		<!-- END: organismo_oid -->
+		<!-- BEGIN: carrerainv_oid -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					<!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					    
+					
+					   
+					</div>
+		<!-- END: carrerainv_oid -->
+		<!-- BEGIN: dt_ingreso -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					 <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					    
+					
+					   
+					</div>
+		<!-- END: dt_ingreso -->
+		<!-- BEGIN: solicitud_filter_lugarTrabajoCarrerainv_oid -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					<!-- BEGIN: label -->
+					    <label for="{input_name}">{value} {required}:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					    
+					
+					   
+					</div>
+		<!-- END: solicitud_filter_lugarTrabajoCarrerainv_oid -->
+		
+	</div>
+	<div id="tabs-5" style="position:relative;">
+		
+		{HTMLProyectos}
+		<br>
+		<!-- BEGIN: solicitud_filter_lugarTrabajo_oid -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} *</label><br>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: solicitud_filter_lugarTrabajo_oid -->
+	</div>
+	<div id="tabs-6" style="position:relative;">
+		<!-- BEGIN: facultadplanilla_oid -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    <br>{input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: facultadplanilla_oid -->
+		
+		
+		<!-- BEGIN: tipo_equipo_oid -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    <br>{input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: tipo_equipo_oid -->
+		
+		<!-- BEGIN: ds_denominacionequipo -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    <br><br>{input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: ds_denominacionequipo -->
+		<!-- BEGIN: nu_monto -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}" >{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    {input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: nu_monto -->
+		<!-- BEGIN: ds_curriculum -->
+					
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-ds_curriculum">
+					    
+					     <!-- BEGIN: label -->
+					    <label for="ds_curriculum">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    <input id="ds_curriculum" type="file" value="" size="32" name="ds_curriculum" onChange="uploadAjax(this,'{actionFile}','ds_curriculum')">
+					    <!-- END: input -->
+					    <span id="ds_curriculum_cargado" >
+						  <!-- Aqui van los archivos cargados -->
+						  {ds_curriculum_cargado}
+						</span>
+					   <div style="color:#A43B3B; font-weight:bold">{label_curriculum}</div> 
+					</div>
+		<!-- END: ds_curriculum -->
+		<!-- BEGIN: ds_presupuesto -->
+					
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-ds_presupuesto">
+					    
+					     <!-- BEGIN: label -->
+					    <label for="ds_presupuesto">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    <input id="ds_presupuesto" type="file" value="" size="32" name="ds_presupuesto" onChange="uploadAjax(this,'{actionFile}','ds_presupuesto')">
+					    <!-- END: input -->
+					    <span id="ds_presupuesto_cargado" >
+						  <!-- Aqui van los archivos cargados -->
+						  {ds_presupuesto_cargado}
+						</span>
+					   
+					</div>
+		<!-- END: ds_presupuesto -->
+		<!-- BEGIN: ds_justificacion -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}" id="label_{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    <br>{input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: ds_justificacion -->
+		<!-- BEGIN: ds_investigadores -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}" id="label_{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    <br><br>{input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: ds_investigadores -->
+		<!-- BEGIN: ds_produccion -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}" id="label_{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    <br>{input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: ds_produccion -->
+		<!-- BEGIN: ds_logros -->
+					<div class="item" style="min-width: {minWidth};display:{display}"  id="item-div-{input_name}">
+					    
+					    <!-- BEGIN: label -->
+					    <label for="{input_name}" id="label_{input_name}">{value} *:</label>
+					    <!-- END: label -->
+					    <!-- BEGIN: input -->
+					    <br>{input}
+					    <!-- END: input -->
+					</div>
+		<!-- END: ds_logros -->
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+</fieldset>	
+</div>	
+</div>
+	{intoFormCustomHTML}
+</form>
+
+{customHTML}
+
+<!-- BEGIN: buttons -->
+<form id="buttons{inputId}">
+	<fieldset class="tblFooters">
+	
+		<!-- BEGIN: submit -->
+		<input type="button" value="{lbl_submit}" id="{form_id}_input_submit" onclick="javascript:submitForm('{form_id}');">
+		<!-- END: submit -->
+		
+		<!-- BEGIN: submit_ajax -->
+		<input type="button" value="{lbl_button}" id="{form_id}_input_submit_ajax" onclick="javascript: submitForm('{form_id}');">
+		<!-- END: submit_ajax -->
+		
+		<!-- BEGIN: button -->
+		<input type="button" value="{lbl_button}" id="{form_id}_input_button_{i}" onclick="javascript: {function}; ">
+		<!-- END: button -->
+	
+		<!-- BEGIN: cancel -->
+		<input type="button" value="{lbl_cancel}" id="{form_id}_input_cancel" onclick="javascript: {function};">
+		<!-- END: cancel -->
+		
+		<div class="camposRequeridos">(*) {msg_required_fields}</div>	
+	</fieldset>
+</form>	
+<!-- END: buttons -->
+<!-- END: main -->
